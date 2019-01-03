@@ -1,8 +1,11 @@
-export const setLocalStorage = (key, value) => localStorage.setItem(key, value);
+export const setSessionStorage = (key, value) => sessionStorage.setItem(key, value);
 
-export const getLocalStorage = (key) => JSON.parse(localStorage.getItem(key));
+export const getSessionStorage = (key) => JSON.parse(sessionStorage.getItem(key));
 
-export const getElementId = (target, value = false) => {
-    const element = document.getElementById(target);
-    return value ? element.value : element;
+export const getElementValue = (target) => {
+    return document.getElementById(target).value;
+};
+
+export const showElement = (target) => {
+    target.style.display = 'block';
 };

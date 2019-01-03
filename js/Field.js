@@ -1,13 +1,17 @@
+import * as fieldData from './field-data.config.js'
+
 export class Field {
     constructor() {
-        this.bombAround = 0;
-        this.hasBomb = false;
-        this.isOpen = false;
+        this.fieldProperties = fieldData.INIT_FIELD_DATA;
     }
+
     createField() {
-        let table = document.querySelector('.game__table');
-        let td = document.createElement('td');
-        table.appendChild(td);
-        return td;
+        const TABLE_CELL = document.createElement('td');
+
+        this.fieldProperties = {
+            ...this.fieldProperties
+        };
+
+        return TABLE_CELL;
     }
 }
