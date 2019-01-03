@@ -6,7 +6,7 @@ let sass = require('gulp-sass');
 gulp.task('browserSync', function() {
     browserSync({
         server: {
-            baseDir: 'E:\\js\\Andersen2'
+            baseDir: 'E:\\js\\Sapper'
         }
     })
 });

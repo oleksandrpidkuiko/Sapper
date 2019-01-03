@@ -83,7 +83,7 @@ body {
 .bomb-run {
   background-color: red; }
 
-#modalWin {
+#modal-window {
   height: 200px;
   width: 300px;
   border: 2px solid yellow;
@@ -96,7 +96,15 @@ body {
   z-index: 2;
   display: none;
   padding: 15px; }
-  #modalWin input[type='button'], #modalWin input[type='number'] {
+  #modal-window input[type='number'] {
+    border: 2px solid yellow;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 5px;
+    display: block;
+    margin: 20px auto; }
+  #modal-window button {
     border: 2px solid yellow;
     background: rgba(0, 0, 0, 0.5);
     color: white;

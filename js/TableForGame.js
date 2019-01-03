@@ -1,66 +1,77 @@
 import { Field } from "./Field.js";
-import * as utils from "./Utils.js";
+import * as tableData from "./table-data.config.js"
 
 export class TableForGame {
     constructor(row, column){
-        this.row = row;
-        this.column = column;
-        this.bombsCount = utils.getLocalStorage('countBomb');
-        this.open_count = 0;
-        this.field = [];
+       this.tableProperties = {
+           ...tableData.INIT_TABLE_DATA,
+           row: row,
+           column: column
+       };
     }
 
     createTable() {
-        this.field = [];
-        let divTable = document.querySelector('.game');
-        divTable.innerHTML = '';
-        let table = document.createElement('table');
-        table.className = 'game__table';
-        divTable.appendChild(table);
-        for (let i = 0; i < this.column; i++ ){
-            let tr = document.createElement('tr');
-            table.appendChild(tr);
-            let tmp = [];
-            for (let j = 0; j < this.row; j++) {
-                let field = new Field();
-                let field_td = field.createField();
+        const GAME_CONTAINER = document.querySelector('.game'),
+              TABLE_CONTAINER = document.createElement('table');
+
+        this.tableProperties.field = [];
+        GAME_CONTAINER.innerHTML = '';
+        TABLE_CONTAINER.className = 'game__table';
+        GAME_CONTAINER.appendChild(TABLE_CONTAINER);
+
+        for (let i = 0; i < this.tableProperties.column; i++ ){
+            const FIELD_CONTAINER = document.createElement('tr'),
+                  tmp = [];
+
+            TABLE_CONTAINER.appendChild(FIELD_CONTAINER);
+
+            for (let j = 0; j < this.tableProperties.row; j++) {
+                let field = new Field(),
+                    field_td = field.createField();
+
                 tmp.push(field);
-                tr.appendChild(field_td);
+                FIELD_CONTAINER.appendChild(field_td);
             }
-            this.field.push(tmp);
+
+            this.tableProperties.field.push(tmp);
         }
     }
 
     putBombs() {
-        for (let i = 0; i < this.bombsCount;) {
-            let x = parseInt(Math.random() * this.column - 0.001);
-            let y = parseInt(Math.random() * this.row - 0.001);
-            if (!this.field[x][y].hasBomb) {
-                this.field[x][y].hasBomb = true;
+        for (let i = 0; i < this.tableProperties.bombsCount;) {
+            let X = parseInt(Math.random() * this.tableProperties.column - 1),
+                  Y = parseInt(Math.random() * this.tableProperties.row - 1);
+
+            if (!this.tableProperties.field[X][Y].fieldProperties.hasBomb) {
+                this.tableProperties.field[X][Y].fieldProperties.hasBomb = true;
                 i++;
             }
         }
     }
 
     bombsAroundCounter(x, y) {
-        let xStart = (x > 0) ? x - 1: x;
-        let yStart = (y > 0) ? y - 1: y;
-        let xEnd = (x < this.column - 1) ? x + 1: x;
-        let yEnd = (y < this.row - 1) ? y + 1: y;
-        let count = 0;
+        let xStart = (x > 0) ? x - 1 : x,
+            yStart = (y > 0) ? y - 1 : y,
+            xEnd = (x < this.tableProperties.column - 1) ? x + 1 : x,
+            yEnd = (y < this.tableProperties.row - 1) ? y + 1 : y,
+            count = 0;
+
         for (let i = xStart; i <= xEnd; i++) {
+
             for (let j = yStart; j <= yEnd; j++) {
-                if (this.field[i][j].hasBomb && !(x == i && y == j )){
+                if (this.tableProperties.field[i][j].fieldProperties.hasBomb && !(x === i && y === j )){
                     count++;
                 }
             }
         }
-        this.field[x][y].bombAround = count;
+
+        this.tableProperties.field[x][y].fieldProperties.bombAround = count;
     }
 
     startCounter() {
-        for (let i = 0; i < this.column; i++) {
-            for (let j = 0; j < this.row; j++){
+        for (let i = 0; i < this.tableProperties.column; i++) {
+
+            for (let j = 0; j < this.tableProperties.row; j++){
                 this.bombsAroundCounter(i,j);
             }
         }
